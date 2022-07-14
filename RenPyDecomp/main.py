@@ -4,6 +4,7 @@
 """
 
 import os
+import argparse
 import subprocess
 import threading
 import shutil
@@ -35,6 +36,16 @@ class Decompiler(threading.Thread):
             raise ValueError("Path \"{0}\" is not exists.".format(input_path))
 
         self._input_path = input_path
+
+    @classmethod
+    def run_from_console(cls):
+        parser = argparse.ArgumentParser(
+            prog="RenPyDecomp",
+            description="Ren'Py decompiler."
+        )
+        parser.add_argument("files_or_folders", nargs='*')
+        raise Exception(parser.files_or_folders)
+
 
     def get_files_from_dir(self, directory):
 
