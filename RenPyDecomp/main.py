@@ -44,8 +44,11 @@ class Decompiler(threading.Thread):
             description="Ren'Py decompiler."
         )
         parser.add_argument("files_or_folders", nargs='*')
-        raise Exception(parser.files_or_folders)
-
+        names = parser.parse_args()
+        for name in map(path.abspath, names):
+            decompile_object = cls(name)
+            cls.LOGGER.info("Start decompiling \"%s\".", name)
+            decompile_object.run()
 
     def get_files_from_dir(self, directory):
 
