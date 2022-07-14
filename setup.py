@@ -7,7 +7,7 @@ from setuptools import setup
 
 setup(
     name="RenPyDecomp",
-    version="1.0.2",
+    version="1.0.3",
     author="Vladya",
     packages=["RenPyDecomp"],
     install_requires=["unrpa>=2.3.0"],

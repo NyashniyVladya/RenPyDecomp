@@ -8,7 +8,7 @@ from os import path
 from . import utils
 
 __author__ = "Vladya"
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 utils.assert_run_in_python3()
 
