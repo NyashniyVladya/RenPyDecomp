@@ -21,6 +21,9 @@ class Decompiler(threading.Thread):
     __author__ = "Vladya"
 
     LOGGER = parent_logger.getChild("Decompiler")
+    UNRPYC_LOGGER = LOGGER.getChild("unrpyc")
+    UNRPA_LOGGER = LOGGER.getChild("unrpa")
+
     DECOMP_FORMATS = {
         "compiled": (".rpyc", ".rpymc"),
         "archive": (".rpa", ".rpi")
@@ -113,6 +116,7 @@ class Decompiler(threading.Thread):
                     PY2EXE,
                     "-m", "unrpyc",
                     "--clobber",
+                    "--try-harder",
                     filename
                 ),
                 stdout=subprocess.PIPE,
@@ -120,11 +124,16 @@ class Decompiler(threading.Thread):
             ) as process:
                 stdout_data, stderr_data = process.communicate(timeout=30.)
 
+            stdout_data, stderr_data = map(
+                lambda x: x.decode("utf_8", "ignore"),
+                (stdout_data, stderr_data)
+            )
+
             if stderr_data:
-                self.LOGGER.error(stderr_data)
+                self.UNRPYC_LOGGER.error(stderr_data)
                 raise SystemError(stderr_data)
 
-            self.LOGGER.info(stdout_data)
+            self.UNRPYC_LOGGER.info(stdout_data)
             return
 
         elif not _ignore_other_ext:
